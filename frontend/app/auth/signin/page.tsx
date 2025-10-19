@@ -13,12 +13,12 @@ export default function SignIn() {
       <Card.Root>
         <Card.Body>
           <VStack gap={6}>
-            <Heading size="xl">ログイン</Heading>
+            <Heading size="xl" color="red.700">ログイン</Heading>
             <Text color="gray.600" textAlign="center">
               Discordアカウントでログインしてください
             </Text>
             <Button 
-              colorScheme="purple" 
+              colorScheme="red" 
               size="lg" 
               width="full"
               onClick={handleDiscordLogin}

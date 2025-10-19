@@ -95,7 +95,7 @@ export default function ProfilePage() {
     <Container maxW="container.md" py={10}>
       <VStack gap={6} align="stretch">
         <Box>
-          <Heading size="xl" mb={2}>
+          <Heading size="xl" mb={2} color="red.700">
             プロフィール設定
           </Heading>
           <Text color="gray.600">
@@ -155,7 +155,7 @@ export default function ProfilePage() {
               </Box>
 
               <Button
-                colorScheme="blue"
+                colorScheme="red"
                 onClick={handleRegisterSummoner}
                 loading={isLoading}
               >

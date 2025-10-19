@@ -21,38 +21,38 @@ export default function Home() {
 
         <HStack gap={4} justify="center" flexWrap="wrap">
           <Link href="/auth/signin" passHref>
-            <Button colorScheme="blue" size="lg">
+            <Button colorScheme="red" size="lg">
               Discordでログイン
             </Button>
           </Link>
           <Link href="/profile" passHref>
-            <Button colorScheme="purple" size="lg">
+            <Button colorScheme="red" variant="outline" size="lg">
               サモナー登録
             </Button>
           </Link>
           <Link href="/games" passHref>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" borderColor="red.500" color="red.600" _hover={{ bg: 'red.50' }}>
               試合履歴を見る
             </Button>
           </Link>
           <Link href="/mock" passHref>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" borderColor="red.500" color="red.600" _hover={{ bg: 'red.50' }}>
               デザインMOCK
             </Button>
           </Link>
         </HStack>
 
-        <Box bg="gray.50" p={8} borderRadius="md">
-          <Heading size="lg" mb={4}>
+        <Box bg="red.50" p={8} borderRadius="md" borderWidth={1} borderColor="red.200">
+          <Heading size="lg" mb={4} color="red.700">
             主な機能
           </Heading>
           <VStack align="start" gap={3}>
-            <Text>✓ Discordアカウントでログイン</Text>
-            <Text>✓ サモナー名登録とランクからのMMR自動計算</Text>
-            <Text>✓ カスタムゲームの試合履歴閲覧</Text>
-            <Text>✓ MMRベースの自動チーム分け</Text>
-            <Text>✓ Discord Botからの試合作成</Text>
-            <Text>✓ 勝敗記録と統計</Text>
+            <Text color="red.900">✓ Discordアカウントでログイン</Text>
+            <Text color="red.900">✓ サモナー名登録とランクからのMMR自動計算</Text>
+            <Text color="red.900">✓ カスタムゲームの試合履歴閲覧</Text>
+            <Text color="red.900">✓ MMRベースの自動チーム分け</Text>
+            <Text color="red.900">✓ Discord Botからの試合作成</Text>
+            <Text color="red.900">✓ 勝敗記録と統計</Text>
           </VStack>
         </Box>
       </VStack>

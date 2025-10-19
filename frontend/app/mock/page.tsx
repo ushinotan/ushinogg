@@ -30,23 +30,23 @@ export default function MockPage() {
           </Card.Header>
           <Card.Body>
             <Grid templateColumns="repeat(auto-fit, minmax(150px, 1fr))" gap={4}>
-              <Box bg="blue.500" p={4} borderRadius="md" color="white">
-                <Text fontWeight="bold">Blue</Text>
+              <Box bg="red.600" p={4} borderRadius="md" color="white">
+                <Text fontWeight="bold">Primary Red</Text>
                 <Text fontSize="sm">主要カラー</Text>
               </Box>
-              <Box bg="red.500" p={4} borderRadius="md" color="white">
-                <Text fontWeight="bold">Red</Text>
-                <Text fontSize="sm">赤チーム</Text>
+              <Box bg="red.400" p={4} borderRadius="md" color="white">
+                <Text fontWeight="bold">Light Red</Text>
+                <Text fontSize="sm">アクセント</Text>
               </Box>
-              <Box bg="purple.500" p={4} borderRadius="md" color="white">
-                <Text fontWeight="bold">Purple</Text>
-                <Text fontSize="sm">Discord</Text>
+              <Box bg="red.800" p={4} borderRadius="md" color="white">
+                <Text fontWeight="bold">Dark Red</Text>
+                <Text fontSize="sm">強調</Text>
               </Box>
               <Box bg="green.500" p={4} borderRadius="md" color="white">
                 <Text fontWeight="bold">Green</Text>
                 <Text fontSize="sm">成功</Text>
               </Box>
-              <Box bg="gray.500" p={4} borderRadius="md" color="white">
+              <Box bg="gray.700" p={4} borderRadius="md" color="white">
                 <Text fontWeight="bold">Gray</Text>
                 <Text fontSize="sm">中立</Text>
               </Box>
@@ -62,11 +62,11 @@ export default function MockPage() {
           <Card.Body>
             <VStack align="start" gap={4}>
               <HStack gap={4} flexWrap="wrap">
-                <Button colorScheme="blue">プライマリ</Button>
-                <Button colorScheme="red">赤チーム</Button>
-                <Button colorScheme="purple">Discord</Button>
+                <Button colorScheme="red">プライマリ</Button>
+                <Button colorScheme="red" variant="outline">アウトライン</Button>
+                <Button colorScheme="red" variant="subtle">サブトル</Button>
                 <Button colorScheme="green">成功</Button>
-                <Button variant="outline">アウトライン</Button>
+                <Button variant="outline">デフォルト</Button>
                 <Button variant="ghost">ゴースト</Button>
               </HStack>
               <HStack gap={4} flexWrap="wrap">

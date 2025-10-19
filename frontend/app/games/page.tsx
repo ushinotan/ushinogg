@@ -54,9 +54,9 @@ export default function Games() {
   return (
     <Container maxW="container.xl" py={8}>
       <HStack justify="space-between" mb={6}>
-        <Heading size="xl">試合履歴</Heading>
+        <Heading size="xl" color="red.700">試合履歴</Heading>
         <Link href="/game/new" passHref>
-          <Button colorScheme="blue">新しい試合を作成</Button>
+          <Button colorScheme="red">新しい試合を作成</Button>
         </Link>
       </HStack>
 

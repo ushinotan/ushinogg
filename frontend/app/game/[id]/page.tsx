@@ -137,7 +137,7 @@ export default function GameDetail() {
 
         {game.status === 'PENDING' && (
           <HStack gap={4}>
-            <Button colorScheme="purple" onClick={handleShuffleTeams}>
+            <Button colorScheme="red" variant="outline" onClick={handleShuffleTeams}>
               チームを再シャッフル
             </Button>
             <Button colorScheme="blue" onClick={() => handleRecordResult('BLUE')}>
