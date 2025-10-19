@@ -25,6 +25,11 @@ export default function Home() {
               Discordでログイン
             </Button>
           </Link>
+          <Link href="/profile" passHref>
+            <Button colorScheme="purple" size="lg">
+              サモナー登録
+            </Button>
+          </Link>
           <Link href="/games" passHref>
             <Button variant="outline" size="lg">
               試合履歴を見る
@@ -43,6 +48,7 @@ export default function Home() {
           </Heading>
           <VStack align="start" gap={3}>
             <Text>✓ Discordアカウントでログイン</Text>
+            <Text>✓ サモナー名登録とランクからのMMR自動計算</Text>
             <Text>✓ カスタムゲームの試合履歴閲覧</Text>
             <Text>✓ MMRベースの自動チーム分け</Text>
             <Text>✓ Discord Botからの試合作成</Text>

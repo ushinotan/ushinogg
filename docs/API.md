@@ -16,6 +16,88 @@ http://localhost:8080/api
 
 ## エンドポイント
 
+### プレイヤー管理
+
+#### サモナー名登録
+
+プレイヤーのサモナー名を登録し、Riot APIからランク情報を取得してMMRを自動計算します。
+
+```http
+POST /api/players/{playerId}/register-summoner
+```
+
+**パスパラメータ:**
+- `playerId` - プレイヤーID
+
+**リクエストボディ:**
+
+```json
+{
+  "playerId": 1,
+  "summonerName": "Hide on bush",
+  "region": "kr"
+}
+```
+
+**レスポンス:**
+
+```json
+{
+  "id": 1,
+  "discordId": "discord_123456789",
+  "discordUsername": "Player1",
+  "summonerName": "Hide on bush",
+  "summonerRegion": "kr",
+  "currentRank": "CHALLENGER I",
+  "currentTier": "CHALLENGER",
+  "currentDivision": "I",
+  "currentLp": 1234,
+  "mmr": 5468
+}
+```
+
+**ステータスコード:**
+- `200 OK` - 成功
+- `400 Bad Request` - サモナーが見つからない
+- `500 Internal Server Error` - サーバーエラー
+
+---
+
+#### ランク情報更新
+
+登録済みのサモナーのランク情報を更新し、MMRを再計算します。
+
+```http
+POST /api/players/{playerId}/update-rank
+```
+
+**パスパラメータ:**
+- `playerId` - プレイヤーID
+
+**レスポンス:**
+
+```json
+{
+  "id": 1,
+  "discordId": "discord_123456789",
+  "discordUsername": "Player1",
+  "summonerName": "Hide on bush",
+  "summonerRegion": "kr",
+  "currentRank": "CHALLENGER I",
+  "currentTier": "CHALLENGER",
+  "currentDivision": "I",
+  "currentLp": 1250,
+  "mmr": 5500
+}
+```
+
+**ステータスコード:**
+- `200 OK` - 成功
+- `400 Bad Request` - サモナー名が未登録
+- `404 Not Found` - プレイヤーが見つからない
+
+---
+
 ### ゲーム管理
 
 #### ゲーム作成

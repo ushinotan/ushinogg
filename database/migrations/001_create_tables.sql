@@ -3,7 +3,13 @@ CREATE TABLE IF NOT EXISTS players (
     id BIGSERIAL PRIMARY KEY,
     discord_id VARCHAR(255) NOT NULL UNIQUE,
     discord_username VARCHAR(255) NOT NULL,
+    summoner_name VARCHAR(255),
+    summoner_puuid VARCHAR(255),
+    summoner_region VARCHAR(10) DEFAULT 'jp1',
     current_rank VARCHAR(50),
+    current_tier VARCHAR(50),
+    current_division VARCHAR(10),
+    current_lp INTEGER,
     mmr INTEGER NOT NULL DEFAULT 1500,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
@@ -11,6 +17,7 @@ CREATE TABLE IF NOT EXISTS players (
 
 CREATE INDEX idx_players_discord_id ON players(discord_id);
 CREATE INDEX idx_players_mmr ON players(mmr);
+CREATE INDEX idx_players_summoner_name ON players(summoner_name);
 
 -- ゲームテーブル
 CREATE TABLE IF NOT EXISTS games (

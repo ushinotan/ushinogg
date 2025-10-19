@@ -5,10 +5,11 @@ League of Legendsのカスタムゲーム用の自動チーム分けツールで
 ## 主な機能
 
 - 🎮 **Discord認証**: Discordアカウントでログイン
+- 👤 **サモナー登録**: Riot APIと連携してサモナー名を登録
 - 📊 **試合履歴管理**: カスタムゲームの勝敗と参加者を記録・閲覧
 - ⚖️ **自動チーム分け**: MMRとランクを考慮した公平なチーム編成
 - 🤖 **Discord Bot統合**: Botコマンドから試合を作成
-- 📈 **MMRシステム**: 試合結果に基づいてプレイヤーのスキルレーティングを管理
+- 📈 **MMRシステム**: ソロランクから自動計算、試合結果に基づいて管理
 
 ## 技術スタック
 
@@ -44,6 +45,12 @@ League of Legendsのカスタムゲーム用の自動チーム分けツールで
    - `http://localhost:8080/login/oauth2/code/discord`
 3. BotタブでBotを作成してトークンを取得
 4. Bot PermissionsでSlash Commandsを有効化
+
+### Riot API設定
+
+1. [Riot Developer Portal](https://developer.riotgames.com/)でアカウント作成
+2. Development API Keyを取得（24時間有効）
+3. 本番環境ではProduction API Keyの申請が必要
 
 ### データベースセットアップ
 
@@ -82,6 +89,7 @@ cd backend
 export DISCORD_CLIENT_ID=your_client_id
 export DISCORD_CLIENT_SECRET=your_client_secret
 export DISCORD_BOT_TOKEN=your_bot_token
+export RIOT_API_KEY=your_riot_api_key
 
 # ビルド＆実行
 ./gradlew bootRun
@@ -102,9 +110,10 @@ APIサーバーは http://localhost:8080 で起動
 ### Web UI
 
 1. **ログイン**: Discordアカウントでログイン
-2. **試合作成**: Botコマンドまたは直接Web UIから試合を作成
-3. **チーム編成**: 10人のプレイヤーが自動的にバランスの取れた2チームに分けられる
-4. **結果記録**: 試合終了後、勝利チームを記録してMMRを更新
+2. **サモナー登録**: サモナー名を登録してランクからMMRを自動計算
+3. **試合作成**: Botコマンドまたは直接Web UIから試合を作成
+4. **チーム編成**: 10人のプレイヤーが自動的にバランスの取れた2チームに分けられる
+5. **結果記録**: 試合終了後、勝利チームを記録してMMRを更新
 
 ## プロジェクト構造
 
