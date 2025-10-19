@@ -1,0 +1,22 @@
+import type { Metadata } from "next";
+import "./globals.css";
+import { Providers } from './providers';
+
+export const metadata: Metadata = {
+  title: "LOLカスタムゲーム チーム分けツール",
+  description: "League of Legendsのカスタムゲーム用チーム分けツール",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="ja">
+      <body className="antialiased">
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
