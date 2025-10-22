@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
+import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.interactions.InteractionContextType
 
 /**
@@ -73,12 +74,12 @@ class DiscordBot(
      * @param channelId ボイスチャンネルのID
      * @return メンバーのリスト、ギルドまたはチャンネルが見つからない場合は空のリスト
      */
-    fun getVoiceChannelMembers(guildId: String, channelId: String) =
-        jda?.getGuildById(guildId)
-            ?.getVoiceChannelById(channelId)
-            ?.members
-            ?.filter { !it.user.isBot }
-            ?: emptyList()
+    fun getVoiceChannelMembers(guildId: String, channelId: String): List<Member> {
+        val jdaInstance = jda ?: return emptyList()
+        val guild = jdaInstance.getGuildById(guildId) ?: return emptyList()
+        val voiceChannel = guild.getVoiceChannelById(channelId) ?: return emptyList()
+        return voiceChannel.members.filter { !it.user.isBot }
+    }
 
     override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
         when (event.name) {
