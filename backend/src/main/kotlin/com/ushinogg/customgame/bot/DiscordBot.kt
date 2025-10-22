@@ -53,7 +53,7 @@ class DiscordBot(
                 Commands.slash("history", "カスタムゲームの履歴を表示")
                     .setContexts(InteractionContextType.GUILD),
                 Commands.slash("mmr", "自分のMMRを確認")
-                    .setContexts(InteractionContextType.GUILD),
+                    .setContexts(InteractionContextType.GUILD)
             )?.queue()
 
             println("Discord Bot起動完了")
