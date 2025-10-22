@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
+import net.dv8tion.jda.api.interactions.InteractionContextType
 
 /**
  * Discord Bot の Spring コンポーネント。
@@ -46,9 +47,12 @@ class DiscordBot(
 
             // スラッシュコマンドを登録
             jda?.updateCommands()?.addCommands(
-                Commands.slash("customgame", "カスタムゲームのチーム分けを開始"),
-                Commands.slash("history", "カスタムゲームの履歴を表示"),
+                Commands.slash("customgame", "カスタムゲームのチーム分けを開始")
+                    .setContexts(InteractionContextType.GUILD),
+                Commands.slash("history", "カスタムゲームの履歴を表示")
+                    .setContexts(InteractionContextType.GUILD),
                 Commands.slash("mmr", "自分のMMRを確認")
+                    .setContexts(InteractionContextType.GUILD),
             )?.queue()
 
             println("Discord Bot起動完了")
