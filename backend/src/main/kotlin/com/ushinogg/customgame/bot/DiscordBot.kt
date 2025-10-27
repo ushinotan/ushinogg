@@ -96,7 +96,7 @@ class DiscordBot(
      * - 参加していない場合はエフェメラルな警告を返信する。
      * - 参加している場合はフロントエンドのゲーム作成ページへのURLを生成して返信する。
      *
-     * @param event SlashCommandInteractionEvent スラッシュコマンドイベント
+     * @param event スラッシュコマンドイベント
      */
     private fun handleCustomGame(event: SlashCommandInteractionEvent) {
         val guildId = event.guild?.id ?: return
