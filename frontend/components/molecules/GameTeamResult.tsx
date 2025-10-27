@@ -14,7 +14,7 @@ interface GameTeamResultProps {
   isWinner: boolean;
 }
 
-// TypeScript
+// Displays the result for a game team, including team name, players, and winner status.
 export default function GameTeamResult({
   teamName,
   players,
