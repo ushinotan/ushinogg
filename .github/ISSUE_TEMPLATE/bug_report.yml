@@ -1,0 +1,84 @@
+name: 🐛 バグ報告
+description: バグや不具合を報告する
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグ報告ありがとうございます。できるだけ詳しく記載してください。
+  
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 影響範囲
+      description: どの部分に関するバグですか？
+      options:
+        - ui (フロントエンド)
+        - backend (サーバーサイド)
+        - db (データベース)
+        - api (API)
+        - その他
+    validations:
+      required: true
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: バグの内容
+      description: どのようなバグが発生していますか？
+      placeholder: 発生している問題を記載してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグを再現する方法
+      placeholder: |
+        1. ～にアクセス
+        2. ～をクリック
+        3. ～が表示される
+    validations:
+      required: true
+  
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待される動作
+      description: 本来どのように動作すべきですか？
+      placeholder: 期待される動作を記載してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の動作
+      description: 実際にはどのように動作していますか？
+      placeholder: 実際の動作を記載してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: environment
+    attributes:
+      label: 環境
+      description: どのような環境で発生していますか？
+      placeholder: |
+        - OS: Windows 11
+        - ブラウザ: Chrome 120
+        - Node.js: v20.0.0
+    validations:
+      required: false
+  
+  - type: textarea
+    id: additional
+    attributes:
+      label: 補足情報
+      description: スクリーンショットやエラーログなど、補足情報があれば記載してください
+      placeholder: その他気づいた点があれば記載してください
+    validations:
+      required: false
+

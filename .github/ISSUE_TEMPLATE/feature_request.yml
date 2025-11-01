@@ -1,0 +1,72 @@
+name: ✨ 機能リクエスト
+description: 新しい機能や改善を提案する
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        機能リクエストありがとうございます。実現したい機能について記載してください。
+  
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 変更範囲
+      description: どの部分の機能ですか？
+      options:
+        - ui (フロントエンド)
+        - backend (サーバーサイド)
+        - db (データベース)
+        - api (API)
+        - その他
+    validations:
+      required: true
+  
+  - type: textarea
+    id: problem
+    attributes:
+      label: 解決したい課題
+      description: どのような問題や不便さがありますか？
+      placeholder: 現在の課題や不便な点を記載してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: solution
+    attributes:
+      label: 提案する解決策
+      description: どのような機能があれば解決できますか？
+      placeholder: 提案する機能や改善内容を記載してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 代替案
+      description: 他に考えられる方法はありますか？
+      placeholder: 代替案があれば記載してください
+    validations:
+      required: false
+  
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度
+      description: どの程度重要ですか？
+      options:
+        - 高 (早急に必要)
+        - 中 (あると便利)
+        - 低 (余裕があれば)
+    validations:
+      required: false
+  
+  - type: textarea
+    id: additional
+    attributes:
+      label: 補足情報
+      description: 参考になるスクリーンショットやリンクなどがあれば記載してください
+      placeholder: その他補足があれば記載してください
+    validations:
+      required: false
+

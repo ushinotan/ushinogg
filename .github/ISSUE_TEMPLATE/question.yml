@@ -1,0 +1,59 @@
+name: ❓ 質問・その他
+description: 質問や相談、その他の内容
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        質問や相談など、お気軽にお問い合わせください。
+  
+  - type: dropdown
+    id: type
+    attributes:
+      label: 種類
+      description: どのような内容ですか？
+      options:
+        - 質問 (使い方とか)
+        - 相談 (実装方法とか)
+        - ドキュメント (説明がほしい)
+        - その他
+    validations:
+      required: true
+  
+  - type: textarea
+    id: content
+    attributes:
+      label: 内容
+      description: 質問や相談したい内容を記載してください
+      placeholder: 質問や相談の内容を記載してください
+    validations:
+      required: true
+  
+  - type: textarea
+    id: context
+    attributes:
+      label: 背景・状況
+      description: どのような状況で質問されていますか？
+      placeholder: 質問の背景や状況を記載してください
+    validations:
+      required: false
+  
+  - type: textarea
+    id: tried
+    attributes:
+      label: 試したこと
+      description: すでに試したことがあれば記載してください
+      placeholder: 試したことがあれば記載してください
+    validations:
+      required: false
+  
+  - type: textarea
+    id: additional
+    attributes:
+      label: 補足情報
+      description: その他補足情報があれば記載してください
+      placeholder: その他補足があれば記載してください
+    validations:
+      required: false
+
