@@ -8,7 +8,7 @@ interface GameHistoryItemProps {
   gameNumber: number;
 }
 
-export default function GameHistoryItem({ game, gameNumber }: GameHistoryItemProps) : JSX.Element {
+export default function GameHistoryItem({ game, gameNumber }: GameHistoryItemProps): JSX.Element {
 
   const formatDate = (date: Date) => {
     const year = date.getFullYear();
