@@ -61,7 +61,7 @@ export function PlayerListItem({
         <Select.HiddenSelect/>
         <Select.Control>
           <Select.Trigger onClick={(e) => e.stopPropagation()}>
-            <Select.ValueText placeholder="Select framework"/>
+            <Select.ValueText placeholder="ランクを選択"/>
           </Select.Trigger>
           <Select.IndicatorGroup>
             <Select.Indicator/>
