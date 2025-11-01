@@ -1,4 +1,4 @@
-import {Player} from "game";
+import {Player} from "@/types/game";
 import {Badge} from "@chakra-ui/react";
 
 interface TeamPlayerItemProps {

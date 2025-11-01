@@ -4,7 +4,7 @@ import {
   Portal,
   Select,
 } from "@chakra-ui/react";
-import {Player, RankMMR} from "game";
+import {Player, RankMMR} from "@/types/game";
 import {generateInitialMMRs} from "@/lib/Mmr";
 import {useMemo} from "react";
 import {ValueChangeDetails} from "@zag-js/select";

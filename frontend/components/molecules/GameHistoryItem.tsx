@@ -1,7 +1,7 @@
 import {Badge, Card} from "@chakra-ui/react";
 import {JSX} from "react";
 import GameTeamResult from "@/components/molecules/GameTeamResult";
-import {GameRecord} from "game";
+import {GameRecord} from "@/types/game";
 
 interface GameHistoryItemProps {
   game: GameRecord;

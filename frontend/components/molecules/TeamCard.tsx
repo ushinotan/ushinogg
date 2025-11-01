@@ -1,4 +1,4 @@
-import {Player} from "game";
+import {Player} from "@/types/game";
 import {Badge, Button, Card} from "@chakra-ui/react";
 import {TeamPlayerItem} from "@/components/molecules/TeamPlayerItem";
 import {Trophy} from "lucide-react";
