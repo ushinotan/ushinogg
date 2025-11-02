@@ -1,12 +1,10 @@
 import { TeamCard } from '../molecules/TeamCard';
-import type { Teams } from '@/types/game';
+import type { Teams, TeamColor } from '@/types/game';
 
 const TEAM_COLORS = {
     BLUE: 'blue',
     RED: 'red',
 } as const;
-
-type TeamColor = (typeof TEAM_COLORS)[keyof typeof TEAM_COLORS];
 
 interface TeamDisplayProps {
     teams: Teams;
