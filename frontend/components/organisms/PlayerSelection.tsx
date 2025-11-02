@@ -30,7 +30,7 @@ export function PlayerSelection({
 
       <Card.Body>
         <div className="space-y-2">
-          {allPlayers.map((player: Player) => (
+          {allPlayers.map((player) => (
             <PlayerListItem
               key={player.id}
               player={player}
