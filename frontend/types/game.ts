@@ -13,6 +13,11 @@ export interface GameRecord {
   winner: 'blue' | 'red';
 }
 
+export interface Teams {
+  blue: Player[];
+  red: Player[];
+}
+
 export type Rank =
     | 'Iron' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum' | 'Diamond'
     | 'Master' | 'Grandmaster' | 'Challenger'
