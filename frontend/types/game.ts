@@ -1,3 +1,5 @@
+import { TEAM_COLORS } from "@/lib/const";
+
 export interface Player {
   id: string;
   name: string;
@@ -10,13 +12,15 @@ export interface GameRecord {
   date: Date;
   blueTeam: Player[];
   redTeam: Player[];
-  winner: 'blue' | 'red';
+  winner: TeamColor;
 }
 
 export interface Teams {
   blue: Player[];
   red: Player[];
 }
+
+export type TeamColor = (typeof TEAM_COLORS)[keyof typeof TEAM_COLORS];
 
 export type Rank =
     | 'Iron' | 'Bronze' | 'Silver' | 'Gold' | 'Platinum' | 'Diamond'
