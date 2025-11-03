@@ -1,5 +1,5 @@
 import {Player} from "@/types/game";
-import {Badge} from "@chakra-ui/react";
+import {NumberBadge, Badge} from "@/components/atom";
 
 interface TeamPlayerItemProps {
   player: Player;
@@ -11,13 +11,13 @@ export function TeamPlayerItem({ player, index, teamColor }: TeamPlayerItemProps
   const colorClasses = {
     blue: {
       container: 'bg-blue-950/30 border-blue-700/30',
-      bg: 'bg-blue-600',
-      text: 'text-blue-100'
+      text: 'text-blue-100',
+      badge: 'border-blue-500 text-blue-300'
     },
     red: {
       container: 'bg-red-950/30 border-red-700/30',
-      bg: 'bg-red-600',
-      text: 'text-red-100'
+      text: 'text-red-100',
+      badge: 'border-red-500 text-red-300'
     },
   };
 
@@ -27,19 +27,14 @@ export function TeamPlayerItem({ player, index, teamColor }: TeamPlayerItemProps
     <div
       className={`flex items-center gap-3 p-2 ${colors.container} rounded border`}
     >
-      <div
-        className={`flex items-center justify-center w-6 h-6 rounded-full ${colors.bg} text-white text-sm font-medium`}
+      <NumberBadge 
+        number={index + 1} 
+        variant={teamColor}
         aria-label={`プレイヤー ${index + 1}番`}
-      >
-        {index + 1}
-      </div>
+      />
       <span className={`${colors.text} flex-1 font-medium`}>{player.name}</span>
       {player.rank && (
-        <Badge
-          variant="outline"
-          colorScheme={teamColor}
-          size="sm"
-        >
+        <Badge size="sm" className={colors.badge}>
           {player.rank}
         </Badge>
       )}

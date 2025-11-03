@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: "LOLカスタムゲーム チーム分けツール",
@@ -15,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className="antialiased">
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );

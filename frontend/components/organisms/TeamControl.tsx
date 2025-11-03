@@ -1,6 +1,6 @@
 import { TeamDisplay } from './TeamDisplay';
+import { Container, Button } from '../atom';
 import type { Teams, TeamColor } from '@/types/game';
-import { Button, Card } from '@chakra-ui/react';
 import { Shuffle, Users } from 'lucide-react';
 
 interface TeamControlProps {
@@ -20,33 +20,34 @@ export function TeamControl({
 }: TeamControlProps) {
   return (
     <div className="space-y-4">
-      <Card.Root className="p-4 bg-slate-800/50 border-slate-700">
-        <Card.Body>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-slate-300">選択中</h3>
-            <span className="text-blue-400">{selectedCount}人</span>
-          </div>
-          <div className="flex gap-3">
+      <Container>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-slate-300">選択中</h3>
+          <span className="text-xl font-bold text-blue-400">{selectedCount}人</span>
+        </div>
+        <div className="flex gap-3">
+          <Button
+            onClick={onShuffleTeams}
+            disabled={selectedCount < 2}
+            variant="primary"
+            size="lg"
+            icon={<Shuffle className="size-5" />}
+            className="flex-1 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed"
+          >
+            {teams ? 'チーム再生成' : 'チーム分け'}
+          </Button>
+          {teams && (
             <Button
-              onClick={onShuffleTeams}
-              disabled={selectedCount < 2}
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
+              onClick={onResetTeams}
+              variant="secondary"
+              size="lg"
+              className="border border-slate-600"
             >
-              <Shuffle className="size-4 mr-2" />
-              {teams ? 'チーム再生成' : 'チーム分け'}
+              リセット
             </Button>
-            {teams && (
-              <Button
-                onClick={onResetTeams}
-                variant="outline"
-                className="border-slate-600 text-slate-300 hover:bg-slate-800"
-              >
-                リセット
-              </Button>
-            )}
-          </div>
-        </Card.Body>
-      </Card.Root>
+          )}
+        </div>
+      </Container>
 
       {teams && <TeamDisplay teams={teams} onRecordResult={onRecordResult} />}
 
