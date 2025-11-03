@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { ErrorBanner } from './ErrorBanner';
 
 interface ErrorDisplayProps extends HTMLAttributes<HTMLDivElement> {
   error: string;

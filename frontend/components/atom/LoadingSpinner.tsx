@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes } from 'react';
 import { Loader2 } from 'lucide-react';
 
 interface LoadingSpinnerProps extends HTMLAttributes<HTMLDivElement> {
