@@ -9,6 +9,6 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-  important: true, // Chakra UIより優先度を高くする
+  important: true, // すべてのスタイルに高い優先度を適用
 }
 
