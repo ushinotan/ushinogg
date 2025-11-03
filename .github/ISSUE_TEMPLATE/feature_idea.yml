@@ -1,12 +1,12 @@
-name: ✨ 機能リクエスト
-description: 新しい機能や改善を提案する
-title: "[Feature]: "
-labels: ["enhancement"]
+name: 💡 機能アイデア
+description: 新しい機能のアイデアや改善案を提案する
+title: "[Idea]: "
+labels: ["idea", "enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        機能リクエストありがとうございます。実現したい機能について記載してください。
+        機能のアイデアや改善案をお気軽に提案してください。
   
   - type: dropdown
     id: scope
@@ -34,7 +34,7 @@ body:
   - type: textarea
     id: solution
     attributes:
-      label: 提案する解決策
+      label: 提案するアイデア
       description: どのような機能があれば解決できますか？
       placeholder: 提案する機能や改善内容を記載してください
     validations:
