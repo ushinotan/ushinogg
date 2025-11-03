@@ -1,7 +1,7 @@
 import {Player} from "@/types/game";
-import {Badge, Button, Card} from "@chakra-ui/react";
 import {TeamPlayerItem} from "@/components/molecules/TeamPlayerItem";
 import {Trophy} from "lucide-react";
+import {Badge, Button, Card} from "@/components/atom";
 
 interface TeamCardProps {
   teamName: string;
@@ -13,13 +13,9 @@ interface TeamCardProps {
 export function TeamCard({ teamName, players, teamColor, onWin }: TeamCardProps) {
   const colorClasses = {
     blue: {
-      gradient: 'bg-gradient-to-br from-blue-900/40 to-blue-800/20',
-      border: 'border-blue-600/50',
       title: 'text-blue-300 font-semibold text-lg',
     },
     red: {
-      gradient: 'bg-gradient-to-br from-red-900/40 to-red-800/20',
-      border: 'border-red-600/50',
       title: 'text-red-300 font-semibold text-lg',
     },
   };
@@ -27,18 +23,15 @@ export function TeamCard({ teamName, players, teamColor, onWin }: TeamCardProps)
   const colors = colorClasses[teamColor];
 
   return (
-    <Card.Root className={`p-4 ${colors.gradient} ${colors.border}`}>
-      <Card.Header className="flex justify-between items-center">
+    <Card variant={teamColor}>
+      <div className="flex justify-between items-center mb-4">
         <h3 className={colors.title}>{teamName}</h3>
-        <Badge
-          colorScheme={teamColor}
-          variant="solid"
-          size="sm"
-        >
+        <Badge variant={teamColor}>
           {players.length}人
         </Badge>
-      </Card.Header>
-      <Card.Body className="space-y-2 mb-3">
+      </div>
+      
+      <div className="space-y-2 mb-4">
         {players.map((player, index) => (
           <TeamPlayerItem
             key={player.id}
@@ -47,19 +40,17 @@ export function TeamCard({ teamName, players, teamColor, onWin }: TeamCardProps)
             teamColor={teamColor}
           />
         ))}
-      </Card.Body>
-      <Card.Footer>
-        <Button
-          onClick={onWin}
-          colorScheme={teamColor}
-          size="lg"
-          width="full"
-          aria-label={`${teamName}チームの勝利を記録`}
-        >
-          <Trophy className="w-4 h-4 mr-2" />
-          {teamName}勝利
-        </Button>
-      </Card.Footer>
-    </Card.Root>
+      </div>
+      
+      <Button
+        onClick={onWin}
+        variant={teamColor}
+        fullWidth
+        icon={<Trophy className="w-5 h-5" />}
+        aria-label={`${teamName}チームの勝利を記録`}
+      >
+        {teamName}勝利
+      </Button>
+    </Card>
   );
 }

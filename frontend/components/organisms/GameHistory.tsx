@@ -1,7 +1,7 @@
 import { memo } from 'react';
-import { Badge } from '@chakra-ui/react'; 
 import { Trophy } from 'lucide-react';
 import GameHistoryItem from '@/components/molecules/GameHistoryItem';
+import { Badge } from '../atom';
 import type { GameRecord } from '@/types/game';
 
 interface GameHistoryProps {
@@ -27,14 +27,14 @@ export const GameHistory = memo(({ gameHistory }: GameHistoryProps) => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-slate-200 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-slate-200 flex items-center gap-2">
           <Trophy 
             className="size-5 text-yellow-500" 
             aria-hidden="true"
           />
           試合履歴
         </h2>
-        <Badge colorScheme="gray" variant="subtle">
+        <Badge variant="default">
           {gameHistory.length}試合
         </Badge>
       </div>

@@ -1,6 +1,6 @@
-import {Badge} from "@chakra-ui/react";
 import {Trophy} from "lucide-react";
 import clsx from "clsx";
+import {Badge} from "@/components/atom";
 
 interface Player {
   id: string;
@@ -26,20 +26,18 @@ export default function GameTeamResult({
     blue: {
       bg: isWinner ? 'bg-blue-950/40' : 'bg-blue-950/20',
       border: isWinner ? 'border-blue-600/50' : 'border-blue-700/30',
-      title: 'text-blue-300',
+      title: 'text-blue-300 font-medium',
       playerBg: 'bg-blue-950/30',
       playerName: 'text-blue-100',
       playerRank: 'text-blue-400',
-      badge: isWinner ? 'bg-yellow-600 text-white' : 'bg-blue-800/50 text-blue-300',
     },
     red: {
       bg: isWinner ? 'bg-red-950/40' : 'bg-red-950/20',
       border: isWinner ? 'border-red-600/50' : 'border-red-700/30',
-      title: 'text-red-300',
+      title: 'text-red-300 font-medium',
       playerBg: 'bg-red-950/30',
       playerName: 'text-red-100',
       playerRank: 'text-red-400',
-      badge: isWinner ? 'bg-yellow-600 text-white' : 'bg-red-800/50 text-red-300',
     },
   };
 
@@ -52,7 +50,9 @@ export default function GameTeamResult({
           {teamName}
           {isWinner && <Trophy className="size-4 text-yellow-400" />}
         </h4>
-        <Badge className={colors.badge}>{players.length}人</Badge>
+        <Badge variant={isWinner ? 'yellow' : 'slate'} size="sm">
+          {players.length}人
+        </Badge>
       </div>
       <div className="space-y-1">
         {players.map((player) => (
