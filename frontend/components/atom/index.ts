@@ -7,4 +7,8 @@ export { Badge } from './Badge';
 export { Card } from './Card';
 export { NumberBadge } from './NumberBadge';
 export { Container } from './Container';
+export { LoadingSpinner } from './LoadingSpinner';
+export { ErrorBanner } from './ErrorBanner';
+export { ErrorDisplay } from './ErrorDisplay';
+export { Modal } from './Modal';
 
