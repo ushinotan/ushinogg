@@ -5,11 +5,9 @@ import com.ushinogg.customgame.model.Team
 import java.time.LocalDateTime
 
 data class PlayerDto(
-    val id: Long,
-    val discordId: String,
-    val discordUsername: String,
-    val currentRank: String?,
-    val mmr: Int
+    val id: String,
+    val name: String,
+    val mmr: Int?
 )
 
 data class GamePlayerDto(

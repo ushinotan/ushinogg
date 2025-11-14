@@ -1,10 +1,12 @@
 package com.ushinogg.customgame.service
 
+import com.ushinogg.customgame.bot.DiscordBot
 import com.ushinogg.customgame.dto.*
 import com.ushinogg.customgame.model.*
+import com.ushinogg.customgame.repository.PlayerRepository
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
 
 /**
  * ゲーム管理サービス
@@ -12,66 +14,10 @@ import java.time.LocalDateTime
 @Service
 @Transactional
 class GameService(
-    private val teamBalancingService: TeamBalancingService
+    private val discordBot: DiscordBot,
+    private val playerRepository: PlayerRepository
 ) {
-    
-    /**
-     * 新しいゲームを作成してチーム分けを行う
-     */
-    fun createGame(request: CreateGameRequest, players: List<Player>): GameDetailDto {
-        // チームバランス調整
-        val teamAssignment = teamBalancingService.balanceTeams(players)
-        
-        // ゲーム作成（実際のDB操作は省略、モック実装）
-        val game = Game(
-            id = System.currentTimeMillis(), // 仮のID
-            serverId = request.serverId,
-            status = GameStatus.PENDING,
-            winningTeam = null,
-            createdAt = LocalDateTime.now()
-        )
-        
-        // チーム情報をDTOに変換
-        val blueTeamDto = teamAssignment.blueTeam.map { player ->
-            GamePlayerDto(
-                player = PlayerDto(
-                    id = player.id,
-                    discordId = player.discordId,
-                    discordUsername = player.discordUsername,
-                    currentRank = player.currentRank,
-                    mmr = player.mmr
-                ),
-                team = Team.BLUE,
-                mmrAtGame = player.mmr
-            )
-        }
-        
-        val redTeamDto = teamAssignment.redTeam.map { player ->
-            GamePlayerDto(
-                player = PlayerDto(
-                    id = player.id,
-                    discordId = player.discordId,
-                    discordUsername = player.discordUsername,
-                    currentRank = player.currentRank,
-                    mmr = player.mmr
-                ),
-                team = Team.RED,
-                mmrAtGame = player.mmr
-            )
-        }
-        
-        return GameDetailDto(
-            id = game.id,
-            serverId = game.serverId,
-            status = game.status,
-            winningTeam = game.winningTeam,
-            blueTeam = blueTeamDto,
-            redTeam = redTeamDto,
-            createdAt = game.createdAt,
-            completedAt = game.completedAt
-        )
-    }
-    
+
     /**
      * 試合結果を記録してMMRを更新
      */
@@ -79,10 +25,10 @@ class GameService(
         // 実際のDB操作は省略
         // ここでは勝利チームと敗北チームのプレイヤーを取得し、
         // MMRを更新する処理を実装する
-        
+
         TODO("実装予定: 試合結果の記録とMMR更新")
     }
-    
+
     /**
      * 特定のサーバーの試合履歴を取得
      */
@@ -90,12 +36,40 @@ class GameService(
         // 実際のDB操作は省略
         TODO("実装予定: 試合履歴の取得")
     }
-    
+
     /**
      * 試合詳細を取得
      */
     fun getGameDetail(gameId: Long): GameDetailDto? {
         // 実際のDB操作は省略
         TODO("実装予定: 試合詳細の取得")
+    }
+
+    /**
+     * 指定されたサーバーとチャンネルの全プレイヤーを取得
+     * @param serverId DiscordサーバーID
+     * @param channelId DiscordボイスチャンネルID
+     */
+    fun getAllPlayers(serverId: String, channelId: String): List<PlayerDto> {
+        val jda = discordBot.getJda()
+        val voiceChannel: VoiceChannel = jda.getGuildById(serverId)?.getVoiceChannelById(channelId)
+            ?: throw IllegalArgumentException("指定されたサーバーまたはチャンネルが見つかりません")
+
+        return voiceChannel.members.map { member ->
+           val existsData =  playerRepository.getPlyerById(member.id, serverId)
+            if (existsData != null) {
+                PlayerDto(
+                    id = member.id,
+                    name = member.effectiveName,
+                    mmr = existsData.mmr
+                )
+            } else {
+                PlayerDto(
+                    id = member.id,
+                    name = member.effectiveName,
+                    mmr = null
+                )
+            }
+        }
     }
 }
