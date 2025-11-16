@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
+import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.interactions.InteractionContextType
 
 /**
@@ -47,10 +48,12 @@ class DiscordBot(
 
             // スラッシュコマンドを登録
             jda?.updateCommands()?.addCommands(
-                Commands.slash("custom_game", "カスタムゲームのチーム分けを開始")
+                Commands.slash("customgame", "カスタムゲームのチーム分けを開始")
                     .setContexts(InteractionContextType.GUILD),
                 Commands.slash("history", "カスタムゲームの履歴を表示")
                     .setContexts(InteractionContextType.GUILD),
+                Commands.slash("mmr", "自分のMMRを確認")
+                    .setContexts(InteractionContextType.GUILD)
             )?.queue()
 
             println("Discord Bot起動完了")
@@ -65,22 +68,24 @@ class DiscordBot(
     }
 
     /**
-     * 初期化された JDA インスタンスを取得します。
+     * 指定されたギルドとボイスチャンネルにいる非ボットメンバーのリストを取得します。
      *
-     * @return JDA インスタンス
-     * @throws IllegalStateException JDA が初期化されていない場合
+     * @param guildId ギルドのID
+     * @param channelId ボイスチャンネルのID
+     * @return メンバーのリスト、ギルドまたはチャンネルが見つからない場合は空のリスト
      */
-    fun getJda(): JDA {
-        if (jda == null) {
-            throw IllegalStateException("JDAが初期化されていません。Discord Botトークンを確認してください。")
-        }
-        return jda!!
+    fun getVoiceChannelMembers(guildId: String, channelId: String): List<Member> {
+        val jdaInstance = jda ?: return emptyList()
+        val guild = jdaInstance.getGuildById(guildId) ?: return emptyList()
+        val voiceChannel = guild.getVoiceChannelById(channelId) ?: return emptyList()
+        return voiceChannel.members.filter { !it.user.isBot }
     }
 
     override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
         when (event.name) {
-            "custom_game" -> handleCustomGame(event)
+            "customgame" -> handleCustomGame(event)
             "history" -> handleHistory(event)
+            "mmr" -> handleMMR(event)
         }
     }
 
@@ -109,6 +114,8 @@ class DiscordBot(
             
             以下のリンクからチーム分けを行ってください：
             $gameUrl
+            
+            ボイスチャンネルに参加している10人のプレイヤーで自動的にチーム分けされます。
         """.trimIndent()).setEphemeral(false).queue()
     }
 
@@ -121,6 +128,20 @@ class DiscordBot(
             
             以下のリンクから試合履歴を確認できます：
             $historyUrl
+        """.trimIndent()).setEphemeral(true).queue()
+    }
+
+    private fun handleMMR(event: SlashCommandInteractionEvent) {
+        val userId = event.user.id
+
+        // TODO: 実際にはデータベースからMMRを取得
+        event.reply("""
+            📈 **あなたのMMR**
+            
+            現在のMMR: 1500
+            ランク: Gold
+            
+            試合を重ねることでMMRが変動します。
         """.trimIndent()).setEphemeral(true).queue()
     }
 }

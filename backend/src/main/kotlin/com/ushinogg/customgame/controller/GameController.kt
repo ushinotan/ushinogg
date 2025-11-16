@@ -1,6 +1,7 @@
 package com.ushinogg.customgame.controller
 
 import com.ushinogg.customgame.dto.*
+import com.ushinogg.customgame.model.Player
 import com.ushinogg.customgame.service.GameService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -14,17 +15,28 @@ import org.springframework.web.bind.annotation.*
 class GameController(
     private val gameService: GameService
 ) {
-
+    
     /**
-     * 参加者取得API
+     * 新しいゲームを作成
      */
-    @GetMapping("/players")
-    fun getPlayers(serverId: String, channelId: String): ResponseEntity<List<PlayerDto>> {
-        val players = gameService.getAllPlayers(serverId, channelId)
-        return ResponseEntity.ok(players)
+    @PostMapping
+    fun createGame(@RequestBody request: CreateGameRequest): ResponseEntity<GameDetailDto> {
+        // TODO: 実際にはリポジトリからプレイヤー情報を取得
+        // ここではモックデータを使用
+        val mockPlayers = (1..10).map { i ->
+            Player(
+                id = i.toLong(),
+                discordId = "discord_$i",
+                discordUsername = "Player$i",
+                currentRank = listOf("Iron", "Bronze", "Silver", "Gold", "Platinum").random(),
+                mmr = (1200..1800).random()
+            )
+        }
+        
+        val game = gameService.createGame(request, mockPlayers)
+        return ResponseEntity.ok(game)
     }
-
-
+    
     /**
      * 試合結果を記録
      */
@@ -36,7 +48,7 @@ class GameController(
         val game = gameService.recordResult(gameId, request.winningTeam)
         return ResponseEntity.ok(game)
     }
-
+    
     /**
      * サーバーの試合履歴を取得
      */
@@ -45,7 +57,7 @@ class GameController(
         val games = gameService.getGameHistory(serverId)
         return ResponseEntity.ok(games)
     }
-
+    
     /**
      * 試合詳細を取得
      */
