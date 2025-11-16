@@ -13,7 +13,7 @@ data class Player(
     @KomapperColumn("discord_id")
     val discordId: String,
 
-    @KomapperColumn("channel_id")
+    @KomapperColumn("server_id")
     val serverId: String,
 
     @KomapperColumn("mmr")
