@@ -25,8 +25,8 @@ import net.dv8tion.jda.api.interactions.InteractionContextType
  */
 @Component
 class DiscordBot(
-    @param:Value("\${discord.bot.token:}") private val botToken: String,
-    @param:Value("\${app.frontend.url:http://localhost:3000}") private val frontendUrl: String
+    @param:Value($$"${discord.bot.token:}") private val botToken: String,
+    @param:Value($$"${app.frontend.url:http://localhost:3000}") private val frontendUrl: String
 ) : ListenerAdapter() {
 
     private var jda: JDA? = null
