@@ -8,32 +8,32 @@ import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react";
 
 const mockPlayers = [
-  { id: '1', name: 'Faker', rank: 'Challenger' },
-  { id: '2', name: 'Chovy', rank: 'Challenger' },
-  { id: '3', name: 'ShowMaker', rank: 'Grandmaster' },
-  { id: '4', name: 'Deft', rank: 'Master' },
-  { id: '5', name: 'Keria', rank: 'Challenger' },
-  { id: '6', name: 'Zeus', rank: 'Grandmaster' },
-  { id: '7', name: 'Oner', rank: 'Master' },
-  { id: '8', name: 'Gumayusi', rank: 'Diamond' },
-  { id: '9', name: 'Ruler', rank: 'Challenger' },
-  { id: '10', name: 'Canyon', rank: 'Grandmaster' },
-  { id: '11', name: 'BeryL', rank: 'Platinum' },
-  { id: '12', name: 'Delight', rank: 'Gold' },
+  { id: '1', name: 'Faker', mmr: 3000 },
+  { id: '2', name: 'Chovy', mmr: 2800 },
+  { id: '3', name: 'ShowMaker', mmr: 2600 },
+  { id: '4', name: 'Deft', mmr: 2400 },
+  { id: '5', name: 'Keria', mmr: 2200 },
+  { id: '6', name: 'Zeus', mmr: 2000 },
+  { id: '7', name: 'Oner', mmr: 1800 },
+  { id: '8', name: 'Gumayusi', mmr: 1600 },
+  { id: '9', name: 'Ruler', mmr: 1400 },
+  { id: '10', name: 'Canyon', mmr: 1200 },
+  { id: '11', name: 'BeryL', mmr: 1000 },
+  { id: '12', name: 'Delight', mmr: 800 },
 ];
 
 // モックAPI - 実際のAPIから取得する想定
 const fetchPlayers = async (serverId: string, channelId: string): Promise<Player[]> => {
   // API呼び出しを模擬
   await new Promise((resolve) => setTimeout(resolve, 800));
-  
+
   return mockPlayers;
 };
 
 const fetchShuffleTeams = async (playerIds: string[]): Promise<Teams> => {
   // API呼び出しを模擬
   await new Promise((resolve) => setTimeout(resolve, 800));
-  
+
   return {
     blue: mockPlayers.filter((p) => playerIds.includes(p.id)).slice(0, 5),
     red: mockPlayers.filter((p) => playerIds.includes(p.id)).slice(5),
@@ -124,7 +124,7 @@ export default function NewGame() {
 
   const recordResult = async (winner: TeamColor) => {
     if (!teams) return;
-    
+
     setRecording(true);
     setError(null);
     try {
@@ -192,9 +192,9 @@ export default function NewGame() {
 
         {/* ローディングオーバーレイ */}
         <Modal isOpen={shuffling || recording}>
-          <LoadingSpinner 
-            size="lg" 
-            message={shuffling ? 'チームを生成中...' : '結果を記録中...'} 
+          <LoadingSpinner
+            size="lg"
+            message={shuffling ? 'チームを生成中...' : '結果を記録中...'}
             className="[&>p]:text-slate-200 [&>p]:text-lg"
           />
         </Modal>

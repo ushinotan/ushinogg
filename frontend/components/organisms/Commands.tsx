@@ -26,8 +26,8 @@ export default function Commands() {
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {commands.map((command, index) => (
-          <Box key={index} className="bg-slate-800 border-slate-700">
+        {commands.map((command) => (
+          <Box key={command.name} className="bg-slate-800 border-slate-700">
             <BoxHeader>
               <div className="flex items-start gap-3">
                 <Terminal className="w-6 h-6 text-amber-400 mt-1 flex-shrink-0" />
