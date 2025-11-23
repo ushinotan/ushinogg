@@ -9,19 +9,14 @@ data class Player(
     @KomapperId
     @KomapperAutoIncrement
     val id: Long = 0,
-
     @KomapperColumn("discord_id")
     val discordId: String,
-
     @KomapperColumn("server_id")
     val serverId: String,
-
     @KomapperColumn("mmr")
-    val mmr: Int = 1500, // デフォルトMMR
-
+    val mmr: Int? = null,
     @KomapperColumn("created_at")
     val createdAt: LocalDateTime = LocalDateTime.now(),
-
     @KomapperColumn("updated_at")
-    val updatedAt: LocalDateTime = LocalDateTime.now()
+    val updatedAt: LocalDateTime = LocalDateTime.now(),
 )
