@@ -40,8 +40,8 @@ class PlayerService(
                 id = player.id,
                 discordId = player.discordId,
                 discordUsername = member.effectiveName,
-                currentRank = null, // まだランク情報ないからnullでOKっしょ〜
-                mmr = player.mmr ?: 1500, // mmrがnullならデフォルト1500的な？
+                currentRank = null,
+                mmr = player.mmr,
             )
         }
     }
