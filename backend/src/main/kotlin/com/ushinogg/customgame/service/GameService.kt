@@ -42,6 +42,10 @@ class GameService(
      * ゲーム結果を登録してMMRを更新
      */
     fun registerGameResult(request: GameResultDto): GameDetailDto {
+        require(request.winningTeam.size == request.losingTeam.size) {
+            "勝利チームと敗北チームのプレイヤー数は同じである必要があります"
+        }
+
         // 1. ゲームを作成
         val game = Game(serverId = request.serverId)
         val createdGame = gameRepository.create(game)
