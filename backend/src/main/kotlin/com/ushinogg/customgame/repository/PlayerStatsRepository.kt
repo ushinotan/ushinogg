@@ -39,7 +39,6 @@ class PlayerStatsRepository(
         val existing = findByPlayerIdAndServerId(stats.playerId, stats.serverId)
 
         return if (existing != null) {
-            // 更新
             val updated =
                 existing.copy(
                     totalGames = stats.totalGames,
@@ -49,7 +48,6 @@ class PlayerStatsRepository(
             val query = QueryDsl.update(playerStatsTable).single(updated)
             database.runQuery(query)
         } else {
-            // 新規作成
             val query = QueryDsl.insert(playerStatsTable).single(stats)
             database.runQuery(query)
         }
