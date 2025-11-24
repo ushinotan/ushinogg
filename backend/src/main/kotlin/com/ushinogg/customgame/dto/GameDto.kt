@@ -1,5 +1,9 @@
 package com.ushinogg.customgame.dto
 
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotEmpty
 import java.time.LocalDateTime
 
 data class PlayerDto(
@@ -12,14 +16,22 @@ data class PlayerDto(
 
 // ゲーム結果登録用のプレイヤー情報（フロントから送信）
 data class GameResultPlayerDto(
+    @field:NotBlank(message = "discordIdは必須です")
     val discordId: String,
+    @field:NotBlank(message = "discordUsernameは必須です")
     val discordUsername: String,
+    @field:Min(value = 0, message = "mmrは0以上である必要があります")
     val mmr: Int, // フロントで選択されたMMR
 )
 
 data class GameResultDto(
+    @field:NotBlank(message = "serverIdは必須です")
     val serverId: String,
+    @field:NotEmpty(message = "winningTeamは空にできません")
+    @field:Valid
     val winningTeam: List<GameResultPlayerDto>,
+    @field:NotEmpty(message = "losingTeamは空にできません")
+    @field:Valid
     val losingTeam: List<GameResultPlayerDto>,
 )
 

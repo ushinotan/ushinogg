@@ -6,6 +6,7 @@ import com.ushinogg.customgame.dto.GameResultDto
 import com.ushinogg.customgame.dto.PlayerDto
 import com.ushinogg.customgame.service.GameService
 import com.ushinogg.customgame.service.PlayerService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -40,7 +41,7 @@ class GameController(
      */
     @PostMapping("/result")
     fun registerGameResult(
-        @RequestBody request: GameResultDto,
+        @Valid @RequestBody request: GameResultDto,
     ): GameDetailDto = gameService.registerGameResult(request)
 
     /**
