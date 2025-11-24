@@ -48,12 +48,6 @@ data class GameDetailDto(
     val createdAt: LocalDateTime,
 )
 
-data class CreateGameRequest(
-    val serverId: String,
-    val winnerPlayerIds: List<Long>, // 勝者のプレイヤーIDリスト
-    val loserPlayerIds: List<Long>, // 敗者のプレイヤーIDリスト
-)
-
 data class GameListDto(
     val id: Long,
     val serverId: String,
@@ -78,10 +72,4 @@ data class GameHistoryDto(
     val isWinner: Boolean,
     val mmrAtGame: Int,
     val gameDate: LocalDateTime,
-)
-
-data class PlayerStatsDetailDto(
-    val player: PlayerDto,
-    val stats: PlayerStatsDto,
-    val recentGames: List<GameHistoryDto>,
 )
