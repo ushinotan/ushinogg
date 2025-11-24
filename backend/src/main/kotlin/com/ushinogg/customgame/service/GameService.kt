@@ -133,9 +133,7 @@ class GameService(
     private fun getOrCreatePlayer(
         discordId: String,
         serverId: String,
-    ): Player =
-        playerRepository.findByDiscordIdAndServerId(discordId, serverId)
-            ?: playerRepository.findOrCreate(discordId, serverId)
+    ): Player = playerRepository.findOrCreate(discordId, serverId)
 
     /**
      * MMR変動量を計算（個別プレイヤー vs 相手チーム平均）
