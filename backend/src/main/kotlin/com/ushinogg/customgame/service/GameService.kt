@@ -219,15 +219,18 @@ class GameService(
 
         val gamePlayerDtos =
             gamePlayers.map { gp ->
-                val player = playerMap[gp.playerId]
+                val player =
+                    playerMap[gp.playerId]
+                        ?: throw IllegalStateException("プレイヤーが見つかりません: playerId=${gp.playerId}, gameId=$gameId")
+
                 GamePlayerDto(
                     player =
                         PlayerDto(
-                            id = player?.id ?: 0,
-                            discordId = player?.discordId ?: "",
-                            discordUsername = player?.discordId ?: "Unknown",
+                            id = player.id,
+                            discordId = player.discordId,
+                            discordUsername = player.discordId,
                             currentRank = null,
-                            mmr = player?.mmr,
+                            mmr = player.mmr,
                         ),
                     isWinner = gp.isWinner,
                     mmrAtGame = gp.mmrAtGame,
