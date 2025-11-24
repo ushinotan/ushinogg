@@ -136,25 +136,6 @@ class GameService(
     ): Player = playerRepository.findOrCreate(discordId, serverId)
 
     /**
-     * MMR変動量を計算（個別プレイヤー vs 相手チーム平均）
-     *
-     * @param playerMmr このプレイヤーのMMR
-     * @param opponentAvgMmr 相手チームの平均MMR
-     * @param isWinner このプレイヤーが勝者かどうか
-     * @return MMR変動量
-     */
-    private fun calculateMmrChange(
-        playerMmr: Double,
-        opponentAvgMmr: Double,
-        isWinner: Boolean,
-    ): Int {
-        // プレイヤーの期待勝率を計算
-        val expectedScore = 1.0 / (1.0 + 10.0.pow((opponentAvgMmr - playerMmr) / 400.0))
-        val actualScore = if (isWinner) 1.0 else 0.0
-        return (K_FACTOR * (actualScore - expectedScore)).toInt()
-    }
-
-    /**
      * MMR変動量を計算（ハイブリッド方式：個人 + チーム平均）
      *
      * 個人の実力（70%）とチーム貢献（30%）の両方を加味した計算
