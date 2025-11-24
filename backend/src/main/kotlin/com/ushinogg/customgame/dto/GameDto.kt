@@ -1,6 +1,7 @@
 package com.ushinogg.customgame.dto
 
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
@@ -19,6 +20,7 @@ data class GameResultPlayerDto(
     @field:NotBlank(message = "discordIdは必須です")
     val discordId: String,
     @field:Min(value = 0, message = "mmrは0以上である必要があります")
+    @field:Max(value = 4000, message = "mmrは4000以下である必要があります")
     val mmr: Int, // フロントで選択されたMMR
 )
 
