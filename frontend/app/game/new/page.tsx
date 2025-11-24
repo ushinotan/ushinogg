@@ -6,51 +6,136 @@ import { Player, TeamColor, Teams } from "@/types/game";
 import { Users } from "lucide-react";
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "@/lib/const";
 
-const mockPlayers = [
-  { id: '1', name: 'Faker', mmr: 3000 },
-  { id: '2', name: 'Chovy', mmr: 2800 },
-  { id: '3', name: 'ShowMaker', mmr: 2600 },
-  { id: '4', name: 'Deft', mmr: 2400 },
-  { id: '5', name: 'Keria', mmr: 2200 },
-  { id: '6', name: 'Zeus', mmr: 2000 },
-  { id: '7', name: 'Oner', mmr: 1800 },
-  { id: '8', name: 'Gumayusi', mmr: 1600 },
-  { id: '9', name: 'Ruler', mmr: 1400 },
-  { id: '10', name: 'Canyon', mmr: 1200 },
-  { id: '11', name: 'BeryL', mmr: 1000 },
-  { id: '12', name: 'Delight', mmr: 800 },
-];
+// API型定義（バックエンドのDTOに対応）
+interface PlayerDtoFromApi {
+  id: number;
+  discordId: string;
+  discordUsername: string;
+  currentRank: string | null;
+  mmr: number | null;
+}
 
-// モックAPI - 実際のAPIから取得する想定
+interface ShufflePlayerDto {
+  discordId: string;
+  discordUsername: string;
+  mmr: number;
+}
+
+interface ShuffleResponseDto {
+  team1: ShufflePlayerDto[];
+  team2: ShufflePlayerDto[];
+  team1AvgMmr: number;
+  team2AvgMmr: number;
+  mmrDifference: number;
+}
+
+interface GameResultPlayerDto {
+  discordId: string;
+  mmr: number;
+}
+
+interface GameResultDto {
+  serverId: string;
+  winningTeam: GameResultPlayerDto[];
+  losingTeam: GameResultPlayerDto[];
+}
+
+// APIから取得したPlayerDtoを内部のPlayer型に変換
+const convertToPlayer = (dto: PlayerDtoFromApi): Player => ({
+  id: dto.discordId,
+  name: dto.discordUsername,
+  rank: dto.currentRank ?? undefined,
+  mmr: dto.mmr ?? undefined,
+});
+
+// 内部のPlayer型をAPI用のShufflePlayerDtoに変換
+const convertToShufflePlayerDto = (player: Player): ShufflePlayerDto => ({
+  discordId: player.id,
+  discordUsername: player.name,
+  mmr: player.mmr ?? 1000, // デフォルトMMR
+});
+
+// プレイヤー一覧取得API
 const fetchPlayers = async (serverId: string, channelId: string): Promise<Player[]> => {
-  // API呼び出しを模擬
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  const response = await fetch(`${API_BASE_URL}/api/games/members/${serverId}/${channelId}`);
 
-  return mockPlayers;
+  if (!response.ok) {
+    throw new Error(`プレイヤー取得に失敗しました: ${response.status}`);
+  }
+
+  const data: PlayerDtoFromApi[] = await response.json();
+  return data.map(convertToPlayer);
 };
 
-const fetchShuffleTeams = async (playerIds: string[]): Promise<Teams> => {
-  // API呼び出しを模擬
-  await new Promise((resolve) => setTimeout(resolve, 800));
+// チームシャッフルAPI
+const fetchShuffleTeams = async (players: Player[]): Promise<Teams> => {
+  const requestBody = {
+    players: players.map(convertToShufflePlayerDto),
+  };
+
+  const response = await fetch(`${API_BASE_URL}/api/games/shuffle`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    throw new Error(`チームシャッフルに失敗しました: ${response.status}`);
+  }
+
+  const data: ShuffleResponseDto = await response.json();
+
+  // ShufflePlayerDtoをPlayer型に変換
+  const convertShufflePlayerToPlayer = (dto: ShufflePlayerDto): Player => ({
+    id: dto.discordId,
+    name: dto.discordUsername,
+    mmr: dto.mmr,
+  });
 
   return {
-    blue: mockPlayers.filter((p) => playerIds.includes(p.id)).slice(0, 5),
-    red: mockPlayers.filter((p) => playerIds.includes(p.id)).slice(5),
+    blue: data.team1.map(convertShufflePlayerToPlayer),
+    red: data.team2.map(convertShufflePlayerToPlayer),
   };
 };
 
-const fetchRecordResult = async (teams: Teams, winner: TeamColor, serverId: string, channelId: string): Promise<void> => {
-  // API呼び出しを模擬
-  await new Promise((resolve) => setTimeout(resolve, 800));
-  return;
+// ゲーム結果記録API
+const fetchRecordResult = async (teams: Teams, winner: TeamColor, serverId: string): Promise<void> => {
+  const winningTeam = winner === 'blue' ? teams.blue : teams.red;
+  const losingTeam = winner === 'blue' ? teams.red : teams.blue;
+
+  const requestBody: GameResultDto = {
+    serverId,
+    winningTeam: winningTeam.map(p => ({
+      discordId: p.id,
+      mmr: p.mmr ?? 1000,
+    })),
+    losingTeam: losingTeam.map(p => ({
+      discordId: p.id,
+      mmr: p.mmr ?? 1000,
+    })),
+  };
+
+  const response = await fetch(`${API_BASE_URL}/api/games/result`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    throw new Error(`結果記録に失敗しました: ${response.status}`);
+  }
 };
 
 export default function NewGame() {
   const searchParams = useSearchParams();
   const serverId = searchParams.get('server') ?? '';
   const channelId = searchParams.get('channel') ?? '';
-
 
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
   const [selectedPlayerIds, setSelectedPlayerIds] = useState<Set<string>>(new Set());
@@ -59,7 +144,6 @@ export default function NewGame() {
   const [shuffling, setShuffling] = useState(false);
   const [recording, setRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
 
   useEffect(() => {
     // バリデーション: serverIdとchannelIdが必須
@@ -108,7 +192,8 @@ export default function NewGame() {
     setShuffling(true);
     setError(null);
     try {
-      const newTeams = await fetchShuffleTeams(Array.from(selectedPlayerIds));
+      const selectedPlayers = allPlayers.filter((p) => selectedPlayerIds.has(p.id));
+      const newTeams = await fetchShuffleTeams(selectedPlayers);
       setTeams(newTeams);
     } catch (err) {
       console.error('チーム分けに失敗しました:', err);
@@ -128,7 +213,7 @@ export default function NewGame() {
     setRecording(true);
     setError(null);
     try {
-      await fetchRecordResult(teams, winner, serverId, channelId);
+      await fetchRecordResult(teams, winner, serverId);
       setTeams(null);
     } catch (err) {
       console.error('結果の記録に失敗しました:', err);
