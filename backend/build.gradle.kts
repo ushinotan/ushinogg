@@ -32,6 +32,9 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+    // Environment variables from .env file
+    implementation("me.paulschwarz:spring-dotenv:4.0.0")
+
     // Komapper
     val komapperVersion = "5.6.0"
     implementation("org.komapper:komapper-spring-boot-starter-jdbc:$komapperVersion")

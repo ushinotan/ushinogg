@@ -13,8 +13,8 @@ spring:
       client:
         registration:
           discord:
-            client-id: ${DISCORD_CLIENT_ID:}
-            client-secret: ${DISCORD_CLIENT_SECRET:}
+            client-id: ${DISCORD_CLIENT_ID}
+            client-secret: ${DISCORD_CLIENT_SECRET}
             scope:
               - identify
               - guilds
@@ -32,11 +32,11 @@ server:
 
 discord:
   bot:
-    token: ${DISCORD_BOT_TOKEN:}
+    token: ${DISCORD_BOT_TOKEN}
 
 riot:
   api:
-    key: ${RIOT_API_KEY:}
+    key: ${RIOT_API_KEY}
 
 app:
   frontend:
