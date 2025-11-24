@@ -22,8 +22,9 @@ class ShuffleService {
 
     /**
      * プレイヤーをMMRベースでバランスの取れた2チームに分ける
-     * 複数回シャッフルして最もバランスの良い組み合わせを選択
-     * 最小MMR差の一定範囲内の候補からランダムに選択することでランダム性を持たせる
+     * 2パスアプローチで効率的にシャッフル：
+     * - 第1パス：最小MMR差を見つける
+     * - 第2パス：閾値以内の候補が見つかったら即座に採用
      *
      * @param players シャッフル対象のプレイヤーリスト
      * @return チーム分けの結果
@@ -33,10 +34,9 @@ class ShuffleService {
         require(players.size % 2 == 0) { "プレイヤー数は偶数である必要があります" }
 
         val teamSize = players.size / 2
-        val candidates = mutableListOf<Triple<List<ShufflePlayerDto>, List<ShufflePlayerDto>, Double>>()
-        var minDifference = Double.MAX_VALUE
 
-        // 複数回シャッフルして良い組み合わせを収集
+        // 第1パス：最小MMR差を見つける
+        var minDifference = Double.MAX_VALUE
         repeat(SHUFFLE_ITERATIONS) {
             val shuffled = players.shuffled(Random)
             val team1 = shuffled.take(teamSize)
@@ -46,21 +46,32 @@ class ShuffleService {
             val team2AvgMmr = team2.map { it.mmr }.average()
             val difference = abs(team1AvgMmr - team2AvgMmr)
 
-            // 最小差を更新
             if (difference < minDifference) {
                 minDifference = difference
             }
-
-            // 候補として保存
-            candidates.add(Triple(team1, team2, difference))
         }
 
-        // 最小差の許容範囲内の候補をフィルタリング
+        // 第2パス：閾値以内の候補からランダムに選択
         val threshold = minDifference * TOLERANCE_FACTOR
-        val goodCandidates = candidates.filter { it.third <= threshold }
+        val candidates = mutableListOf<Pair<List<ShufflePlayerDto>, List<ShufflePlayerDto>>>()
+
+        repeat(SHUFFLE_ITERATIONS) {
+            val shuffled = players.shuffled(Random)
+            val team1 = shuffled.take(teamSize)
+            val team2 = shuffled.drop(teamSize)
+
+            val team1AvgMmr = team1.map { it.mmr }.average()
+            val team2AvgMmr = team2.map { it.mmr }.average()
+            val difference = abs(team1AvgMmr - team2AvgMmr)
+
+            // 閾値以内の候補のみ保存
+            if (difference <= threshold) {
+                candidates.add(Pair(team1, team2))
+            }
+        }
 
         // 候補からランダムに1つ選択
-        val selected = goodCandidates.random(Random)
+        val selected = candidates.random(Random)
 
         val team1AvgMmr = selected.first.map { it.mmr }.average()
         val team2AvgMmr = selected.second.map { it.mmr }.average()
