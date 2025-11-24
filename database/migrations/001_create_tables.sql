@@ -1,11 +1,12 @@
 -- プレイヤーテーブル
 CREATE TABLE IF NOT EXISTS t_player (
     id BIGSERIAL PRIMARY KEY,
-    discord_id VARCHAR(255) NOT NULL UNIQUE,
+    discord_id VARCHAR(255) NOT NULL,
     server_id VARCHAR(255) NOT NULL,
-    mmr INTEGER NOT NULL DEFAULT 1500,
+    mmr INTEGER DEFAULT 1500,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    UNIQUE(discord_id, server_id)
 );
 
 CREATE INDEX idx_players_discord_id ON t_player(discord_id);

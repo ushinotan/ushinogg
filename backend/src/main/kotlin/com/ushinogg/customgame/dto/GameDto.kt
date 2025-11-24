@@ -1,6 +1,7 @@
 package com.ushinogg.customgame.dto
 
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotEmpty
@@ -18,9 +19,8 @@ data class PlayerDto(
 data class GameResultPlayerDto(
     @field:NotBlank(message = "discordIdは必須です")
     val discordId: String,
-    @field:NotBlank(message = "discordUsernameは必須です")
-    val discordUsername: String,
     @field:Min(value = 0, message = "mmrは0以上である必要があります")
+    @field:Max(value = 4000, message = "mmrは4000以下である必要があります")
     val mmr: Int, // フロントで選択されたMMR
 )
 
@@ -48,12 +48,6 @@ data class GameDetailDto(
     val createdAt: LocalDateTime,
 )
 
-data class CreateGameRequest(
-    val serverId: String,
-    val winnerPlayerIds: List<Long>, // 勝者のプレイヤーIDリスト
-    val loserPlayerIds: List<Long>, // 敗者のプレイヤーIDリスト
-)
-
 data class GameListDto(
     val id: Long,
     val serverId: String,
@@ -78,10 +72,4 @@ data class GameHistoryDto(
     val isWinner: Boolean,
     val mmrAtGame: Int,
     val gameDate: LocalDateTime,
-)
-
-data class PlayerStatsDetailDto(
-    val player: PlayerDto,
-    val stats: PlayerStatsDto,
-    val recentGames: List<GameHistoryDto>,
 )

@@ -33,15 +33,17 @@ class GameService(
     companion object {
         private const val K_FACTOR = 32 // MMR変動の係数
         private const val MIN_MMR = 0
-        private const val MAX_MMR = 3000
-        private const val INDIVIDUAL_WEIGHT = 0.7
-        private const val TEAM_WEIGHT = 0.3
+        private const val MAX_MMR = 4000
+        private const val INDIVIDUAL_WEIGHT = 0.3
+        private const val TEAM_WEIGHT = 0.7
     }
 
     /**
      * ゲーム結果を登録してMMRを更新
      */
     fun registerGameResult(request: GameResultDto): GameDetailDto {
+        validateGameResult(request)
+
         // 1. ゲームを作成
         val game = Game(serverId = request.serverId)
         val createdGame = gameRepository.create(game)
@@ -125,6 +127,17 @@ class GameService(
         // 7. 結果を返す
         return getGameDetail(createdGame.id)
             ?: throw IllegalStateException("作成したゲームが見つかりません")
+    }
+
+    private fun validateGameResult(request: GameResultDto) {
+        val allDiscordIds = request.winningTeam.map { it.discordId } + request.losingTeam.map { it.discordId }
+        require(allDiscordIds.size == allDiscordIds.distinct().size) {
+            "同じプレイヤーが複数チームに存在します"
+        }
+
+        require(request.winningTeam.size == request.losingTeam.size) {
+            "勝利チームと敗北チームのプレイヤー数は同じである必要があります"
+        }
     }
 
     /**
