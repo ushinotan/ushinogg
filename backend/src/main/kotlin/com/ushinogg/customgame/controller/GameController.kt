@@ -4,8 +4,11 @@ import com.ushinogg.customgame.dto.GameDetailDto
 import com.ushinogg.customgame.dto.GameListDto
 import com.ushinogg.customgame.dto.GameResultDto
 import com.ushinogg.customgame.dto.PlayerDto
+import com.ushinogg.customgame.dto.ShuffleRequestDto
+import com.ushinogg.customgame.dto.ShuffleResponseDto
 import com.ushinogg.customgame.service.GameService
 import com.ushinogg.customgame.service.PlayerService
+import com.ushinogg.customgame.service.ShuffleService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -26,6 +29,7 @@ import org.springframework.web.server.ResponseStatusException
 class GameController(
     private val playerService: PlayerService,
     private val gameService: GameService,
+    private val shuffleService: ShuffleService,
 ) {
     /**
      * ボイスチャンネルのメンバー取得
@@ -35,6 +39,15 @@ class GameController(
         @PathVariable serverId: String,
         @PathVariable channelId: String,
     ): List<PlayerDto> = playerService.getPlayers(serverId, channelId)
+
+    /**
+     * チームシャッフル
+     * MMRに基づいてバランスの取れたチーム分けを行う
+     */
+    @PostMapping("/shuffle")
+    fun shuffleTeams(
+        @Valid @RequestBody request: ShuffleRequestDto,
+    ): ShuffleResponseDto = shuffleService.shuffleTeams(request.players)
 
     /**
      * ゲーム結果の登録
