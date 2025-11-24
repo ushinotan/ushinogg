@@ -18,8 +18,6 @@ data class PlayerDto(
 data class GameResultPlayerDto(
     @field:NotBlank(message = "discordIdは必須です")
     val discordId: String,
-    @field:NotBlank(message = "discordUsernameは必須です")
-    val discordUsername: String,
     @field:Min(value = 0, message = "mmrは0以上である必要があります")
     val mmr: Int, // フロントで選択されたMMR
 )
