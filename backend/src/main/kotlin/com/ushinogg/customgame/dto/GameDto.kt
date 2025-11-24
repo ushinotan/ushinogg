@@ -73,3 +73,30 @@ data class GameHistoryDto(
     val mmrAtGame: Int,
     val gameDate: LocalDateTime,
 )
+
+// Shuffle用のプレイヤー情報
+data class ShufflePlayerDto(
+    @field:NotBlank(message = "discordIdは必須です")
+    val discordId: String,
+    @field:NotBlank(message = "discordUsernameは必須です")
+    val discordUsername: String,
+    @field:Min(value = 0, message = "mmrは0以上である必要があります")
+    @field:Max(value = 4000, message = "mmrは4000以下である必要があります")
+    val mmr: Int,
+)
+
+// Shuffleリクエスト
+data class ShuffleRequestDto(
+    @field:NotEmpty(message = "playersは空にできません")
+    @field:Valid
+    val players: List<ShufflePlayerDto>,
+)
+
+// Shuffleレスポンス（チーム分け結果）
+data class ShuffleResponseDto(
+    val team1: List<ShufflePlayerDto>,
+    val team2: List<ShufflePlayerDto>,
+    val team1AvgMmr: Double,
+    val team2AvgMmr: Double,
+    val mmrDifference: Double,
+)
