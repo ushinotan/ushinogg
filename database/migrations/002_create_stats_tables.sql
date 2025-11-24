@@ -8,8 +8,6 @@ CREATE TABLE IF NOT EXISTS t_player_stats (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     UNIQUE(player_id, server_id)
 );
-
--- 必要最低限のインデックスだけ！
 CREATE INDEX idx_player_stats_player_server ON t_player_stats(player_id, server_id);
 CREATE INDEX idx_player_stats_server_wins ON t_player_stats(server_id, wins DESC);
 
