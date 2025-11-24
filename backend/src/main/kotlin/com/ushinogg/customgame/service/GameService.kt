@@ -34,8 +34,8 @@ class GameService(
         private const val K_FACTOR = 32 // MMR変動の係数
         private const val MIN_MMR = 0
         private const val MAX_MMR = 4000
-        private const val INDIVIDUAL_WEIGHT = 0.7
-        private const val TEAM_WEIGHT = 0.3
+        private const val INDIVIDUAL_WEIGHT = 0.3
+        private const val TEAM_WEIGHT = 0.7
     }
 
     /**
