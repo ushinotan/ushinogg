@@ -42,9 +42,7 @@ class GameService(
      * ゲーム結果を登録してMMRを更新
      */
     fun registerGameResult(request: GameResultDto): GameDetailDto {
-        require(request.winningTeam.size == request.losingTeam.size) {
-            "勝利チームと敗北チームのプレイヤー数は同じである必要があります"
-        }
+        validateGameResult(request)
 
         // 1. ゲームを作成
         val game = Game(serverId = request.serverId)
@@ -129,6 +127,17 @@ class GameService(
         // 7. 結果を返す
         return getGameDetail(createdGame.id)
             ?: throw IllegalStateException("作成したゲームが見つかりません")
+    }
+
+    private fun validateGameResult(request: GameResultDto) {
+        val allDiscordIds = request.winningTeam.map { it.discordId } + request.losingTeam.map { it.discordId }
+        require(allDiscordIds.size == allDiscordIds.distinct().size) {
+            "同じプレイヤーが複数チームに存在します"
+        }
+
+        require(request.winningTeam.size == request.losingTeam.size) {
+            "勝利チームと敗北チームのプレイヤー数は同じである必要があります"
+        }
     }
 
     /**
