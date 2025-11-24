@@ -6,6 +6,7 @@ import com.ushinogg.customgame.dto.GameResultDto
 import com.ushinogg.customgame.dto.PlayerDto
 import com.ushinogg.customgame.service.GameService
 import com.ushinogg.customgame.service.PlayerService
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 
 /**
  * ゲーム管理REST API
@@ -51,9 +53,13 @@ class GameController(
 
     /**
      * 試合詳細を取得
+     *
+     * @param gameId ゲームID
      */
     @GetMapping("/{gameId}")
     fun getGameDetail(
         @PathVariable gameId: Long,
-    ): GameDetailDto? = gameService.getGameDetail(gameId)
+    ): GameDetailDto =
+        gameService.getGameDetail(gameId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "ゲームID $gameId が見つかりません")
 }
